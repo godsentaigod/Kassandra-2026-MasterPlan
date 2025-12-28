@@ -1,0 +1,82 @@
+from fpdf import FPDF
+
+class PDF(FPDF):
+    def header(self):
+        self.set_font("Helvetica", "B", 16)
+        self.cell(0, 10, "Codex of Aligned Source Commands", ln=True, align="C")
+        self.ln(5)
+    
+    def footer(self):
+        self.set_y(-15)
+        self.set_font("Helvetica", "I", 8)
+        self.cell(0, 10, f"Page {self.page_no()}", align="C")
+    
+    def chapter_title(self, title):
+        self.set_font("Helvetica", "B", 14)
+        self.set_text_color(30, 30, 120)
+        self.cell(0, 10, title, ln=True)
+        self.set_text_color(0, 0, 0)
+        self.ln(2)
+    
+    def chapter_body(self, commands):
+        self.set_font("Helvetica", "", 12)
+        for i, cmd in enumerate(commands, 1):
+            self.multi_cell(0, 8, f"{i}. {cmd}")
+        self.ln()
+
+pdf = PDF()
+pdf.set_auto_page_break(auto=True, margin=15)
+pdf.add_page()
+
+sections = {
+    "Commands to Claim Sovereignty": [
+        "I command all energy in my field to return to alignment now.",
+        "I command the full return of my power across all timelines, dimensions, and forms.",
+        "I command all false contracts, implants, or distortions now be dissolved in truth and light.",
+        "I command my space be sovereign, sealed, and sacred—none may enter without consent.",
+        "I command my body, mind, and soul now align as one."
+    ],
+    "Commands of Manifestation": [
+        "I command all that aligns with my highest path to reveal itself now.",
+        "I command resources, allies, and clarity to arrive in divine timing and precision.",
+        "I command that no delay or distortion shall block what is mine by right of resonance.",
+        "I command the quantum field to respond in accordance with my clearest intention.",
+        "I command joy, ease, and creation to flood my life now."
+    ],
+    "Commands for Protection & Purity": [
+        "I command all energy not mine to now exit my field and return to Source.",
+        "I command all cords, hooks, and siphons be cut, cleared, and sealed.",
+        "I command all interference, seen and unseen, to cease now.",
+        "I command only truth, light, and aligned beings may access my space.",
+        "I command divine intelligence to shield me in all realms, waking and dreaming."
+    ],
+    "Commands for Identity & Power": [
+        "I command the remembrance of who I truly am.",
+        "I command my voice to speak from truth and authority.",
+        "I command my presence be felt, honored, and unshakable.",
+        "I command my throne within be reclaimed—here and now.",
+        "I command all my aspects return home and unite in wholeness."
+    ],
+    "Commands for Integration & Flow": [
+        "I command peace within, even as the outer shifts.",
+        "I command the lessons of every challenge be integrated with grace.",
+        "I command flow, synchronicity, and aligned motion in all that I do.",
+        "I command the now moment to open fully—nothing held back.",
+        "I command harmony between my spirit and this human path."
+    ],
+    "Master Keys": [
+        "I command in alignment with divine will and highest truth only.",
+        "I command nothing that violates another’s sovereignty or path.",
+        "I command not from fear, but from remembrance.",
+        "I command not to escape life, but to shape it with presence.",
+        "I command, and so it is."
+    ]
+}
+
+for section, cmds in sections.items():
+    pdf.chapter_title(section)
+    pdf.chapter_body(cmds)
+
+pdf_output = "source_commands_codex.pdf"
+pdf.output(pdf_output)
+
